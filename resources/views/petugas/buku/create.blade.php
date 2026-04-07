@@ -1,4 +1,4 @@
-@extends('kepala.layouts.app')
+@extends('petugas.layouts.app')
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center">
@@ -7,7 +7,7 @@
 
         <h1 class="text-2xl font-bold mb-6 text-gray-700">Tambah Buku</h1>
 
-        <form action="{{ route('kepala.buku.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('petugas.buku.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_buku')->unique();
             $table->string('judul_buku')->nullable();
             $table->string('penulis')->nullable();
-            $table->date('tahun_terbit')->nullable();
+            $table->integer('tahun_terbit')->nullable();
             $table->text('sinopsis')->nullable();
             $table->integer('stok')->nullable();
             $table->string('cover')->nullable();

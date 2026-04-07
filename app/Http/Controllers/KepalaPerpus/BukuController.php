@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\KepalaPerpus;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -12,7 +13,7 @@ class BukuController extends Controller
     public function index(Request $request)
     {
 
-        $buku = Buku::all();
+        $buku = buku::all();
         return view('kepala.buku.index', compact('buku'));
     }
 
@@ -24,11 +25,11 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_buku'    => 'required|unique:bukus,kode_buku',
+            'kode_buku'    => 'required|unique:buku,kode_buku',
             'judul_buku'   => 'required',
             'penulis'      => 'required',
             'sinopsis'     => 'nullable',
-            'tahun_terbit' => 'required|int',
+            'tahun_terbit' => 'required|integer',
             'stok'   => 'required|integer|min:0',
             'cover'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -51,7 +52,7 @@ class BukuController extends Controller
     public function update(Request $request, Buku $buku)
     {
         $validated = $request->validate([
-            'kode_buku'    => 'required|unique:bukus,kode_buku,' . $buku->id,
+            'kode_buku'    => 'required|unique:buku,kode_buku,' . $buku->id,
             'judul_buku'   => 'required',
             'penulis'      => 'required',
             'tahun_terbit' => 'required|int',

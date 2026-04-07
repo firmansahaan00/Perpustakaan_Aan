@@ -1,22 +1,21 @@
-@extends('kepala.layouts.app')
+@extends('petugas.layouts.app')
 
 @section('content')
-<div class="min-h-screen w-full">
+<div class="min-h-screen w-full px-6 py-8">
 
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-800">📚 Data Buku</h1>
             <p class="text-gray-500 text-sm">Kelola semua data buku perpustakaan</p>
         </div>
-
-        <a href="{{ route('kepala.buku.create') }}"
+        <a href="{{ route('petugas.buku.create') }}"
            class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow transition">
             + Tambah Buku
         </a>
     </div>
 
-    <!-- ✅ NOTIFIKASI MODERN -->
+    <!-- Notification Success -->
     @if(session('success'))
     <div id="toast-success"
          class="fixed top-6 right-6 z-50 flex items-center gap-3 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg transform transition-all duration-500">
@@ -35,7 +34,7 @@
     </script>
     @endif
 
-    <!-- Card -->
+    <!-- Table Card -->
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
 
         <!-- Table -->
@@ -74,7 +73,7 @@
                             </span>
                         </td>
                         <td class="p-4 text-center space-x-2">
-                            <a href="{{ route('kepala.buku.edit', $item->id) }}"
+                            <a href="{{ route('petugas.buku.edit', $item->id) }}"
                                class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs shadow">
                                 Edit
                             </a>
@@ -86,7 +85,7 @@
                             </button>
 
                             <!-- Form hapus (disembunyikan) -->
-                            <form id="delete-form-{{ $item->id }}" action="{{ route('kepala.buku.destroy', $item->id) }}" method="POST" class="hidden">
+                            <form id="delete-form-{{ $item->id }}" action="{{ route('petugas.buku.destroy', $item->id) }}" method="POST" class="hidden">
                                 @csrf
                                 @method('DELETE')
                             </form>

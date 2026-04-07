@@ -13,7 +13,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'level',
+        'role',
     ];
 
     protected $hidden = [
@@ -28,7 +28,7 @@ class User extends Authenticatable
 
     public function petugas()
     {
-        return $this->hasOne(Petugas::class);
+        return $this->hasOne(petugas::class);
     }
 
     public function kepala()

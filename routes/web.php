@@ -1,49 +1,115 @@
 <?php
 
-use App\Http\Controllers\AkunController;
-use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KepalaPerpus\AkunController;
+use App\Http\Controllers\KepalaPerpus\BukuController;
+use App\Http\Controllers\Petugas\PetugasController;
+use App\Http\Controllers\Petugas\BukuController as PetugasBukuController;
+use App\Http\Controllers\Anggota\BukuController as AnggotaBukuController;
+use App\Http\Controllers\Anggota\PeminjamanController as AnggotaPeminjamanController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KepalaPerpus\KepalaPerpusController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('kepala.akun.index');
+/*
+|--------------------------------------------------------------------------
+| HALAMAN AWAL 
+|--------------------------------------------------------------------------
+*/
+// Auth (Login/Register)
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/', fn() => redirect()->route('login'));
+
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login');
+    Route::get('/register', 'showRegister');
+    Route::post('/register', 'register');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
-Route::get('/akun/dashboard', function () {
-    return view('kepala.dashboard');
-})->name('kepala.dashboard');
-// Route Akun
-Route::prefix('kepala.akun')->name('kepala.akun.')->group(function () {
 
-    // TAMPILKAN SEMUA DATA
-    Route::get('/', [AkunController::class, 'index'])->name('index');
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD & ROUTE ROLE
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
 
-    // FORM TAMBAH
-    Route::get('/create', [AkunController::class, 'create'])->name('create');
+    // Kepala Perpustakaan
+    Route::middleware('role:kepala_perpus')->prefix('kepala')->name('kepala.')->group(function () {
+        Route::view('/dashboard', 'kepala.dashboard')->name('dashboard');
 
-    // SIMPAN DATA
-    Route::post('/store', [AkunController::class, 'store'])->name('store');
+        //Profile Kepala
+        Route::prefix('profile')->name('profile.')->controller(KepalaPerpusController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+        });
 
-    // FORM EDIT
-    Route::get('/edit/{id}', [AkunController::class, 'edit'])->name('edit');
+        //Daftar Pengguna Akun Kepala
+        Route::prefix('akun')->name('akun.')->controller(AkunController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}/detail', 'detail')->name('detail');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}/update', 'update')->name('update');
+            Route::delete('/{id}/delete', 'destroy')->name('destroy');
+        });
 
-    // UPDATE DATA
-    Route::put('/update/{id}', [AkunController::class, 'update'])->name('update');
-
-    // DETAIL DATA
-    Route::get('/detail/{id}', [AkunController::class, 'detail'])->name('detail');
-
-    // HAPUS DATA
-    Route::delete('/delete/{id}', [AkunController::class, 'destroy'])->name('destroy');
-
-});
-//Route Buku
-Route::prefix('kepala')->name('kepala.')->group(function () {
-    Route::controller(BukuController::class)->group(function () {
-        Route::get('/buku', 'index')->name('buku.index');
-        Route::get('/buku/create', 'create')->name('buku.create');
-        Route::post('/buku', 'store')->name('buku.store');
-        Route::get('/buku/{buku}/edit', 'edit')->name('buku.edit');
-        Route::put('/buku/{buku}', 'update')->name('buku.update');
-        Route::delete('/buku/{buku}', 'destroy')->name('buku.destroy');
+        //Daftar Buku Kepala
+        Route::prefix('buku')->name('buku.')->controller(BukuController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{buku}/edit', 'edit')->name('edit');
+            Route::put('/{buku}/update', 'update')->name('update');
+            Route::delete('/{buku}/delete', 'destroy')->name('destroy');
+        });
     });
+
+    // Petugas
+    Route::middleware('role:petugas')->prefix('petugas')->name('petugas.')->group(function () {
+        Route::view('/dashboard', 'petugas.dashboard')->name('dashboard');
+
+        // Profile Petugas 
+        Route::prefix('profile')->name('profile.')->controller(PetugasController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+        });
+
+        // Daftar Buku Petugas
+        Route::prefix('buku')->name('buku.')->controller(PetugasBukuController::class)->group(function () {  // FIX Controller
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{buku}/edit', 'edit')->name('edit');
+            Route::put('/{buku}/update', 'update')->name('update');
+            Route::delete('/{buku}/delete', 'destroy')->name('destroy');
+        });
+    });
+
+
+    // Anggota
+    Route::middleware('role:anggota')->prefix('anggota')->name('anggota.')->group(function () {
+         Route::view('/dashboard', 'anggota.dashboard')->name('dashboard');
+
+         Route::get('buku/{buku}', [BukuController::class, 'show'])->name('buku.show');
+
+         //Daftar
+         Route::prefix('buku')->name('buku.')->controller(AnggotaBukuController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{buku}/edit', 'edit')->name('edit');
+            Route::put('/{buku}/update', 'update')->name('update');
+            Route::delete('/{buku}/delete', 'destroy')->name('destroy');
+        }); 
+
+        Route::prefix('peminjaman')->name('peminjaman.')->controller(AnggotaPeminjamanController::class)->group(function () {
+            Route::post('/store', 'store')->name('store'); 
+            Route::get('/', 'index')->name('index');      
+        });
+    });
+    
 });
