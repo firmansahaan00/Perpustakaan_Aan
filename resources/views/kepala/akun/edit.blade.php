@@ -4,7 +4,7 @@
 <div class="p-4">
     <h3 class="mb-3">Edit Akun - {{ $user->name }}</h3>
 
-    <form action="{{ route('akun.update', $user->id) }}" method="POST">
+    <form action="{{ route('kepala.akun.update', $user->id) }}" method="POST">
         @method('PUT')
         @csrf
 
@@ -53,8 +53,8 @@
         <div class="row mb-3">
             <div class="col">
                 <label class="form-label">NIP</label>
-                <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip', $user->petugas->nip) }}">
-                @error('nip')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <input type="text" name="nip_petugas" class="form-control @error('nip_petugas') is-invalid @enderror" value="{{ old('nip_petugas', $user->petugas->nip_petugas) }}">
+                @error('nip_petugas')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col">
                 <label class="form-label">No HP</label>
@@ -67,13 +67,13 @@
         <h5 class="mb-2">Data Kepala Perpus</h5>
         <div class="mb-3">
             <label class="form-label">NIP</label>
-            <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip', $user->kepala->nip) }}">
-            @error('nip')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <input type="text" name="nip_kepala" class="form-control @error('nip_kepala') is-invalid @enderror" value="{{ old('nip_kepala', $user->kepala->nip_kepala) }}">
+            @error('nip_kepala')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
         @endif
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('akun.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('kepala.akun.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

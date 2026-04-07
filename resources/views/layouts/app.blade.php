@@ -6,9 +6,23 @@
 </head>
 <body>
 
-<div class="container mt-4">
-    @yield('content')
+<div class="d-flex">
+
+    {{-- Sidebar --}}
+    @include('layouts.sidebar')
+
+    {{-- Content --}}
+    <div class="p-4 w-100">
+        @yield('content')
+    </div>
+
 </div>
+
+<script>
+function toggleMenu() {
+    document.getElementById('submenu').classList.toggle('d-none');
+}
+</script>
 
 </body>
 </html>

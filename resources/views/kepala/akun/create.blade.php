@@ -4,7 +4,7 @@
 <div class="p-4">
     <h3 class="mb-3">Tambah Akun</h3>
 
-    <form action="{{ route('akun.store') }}" method="POST">
+    <form action="{{ route('kepala.akun.store') }}" method="POST">
         @csrf
 
         <!-- Level -->
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col">
                     <label class="form-label">Kelas *</label>
-                    <input type="text" name="kelas" class="form-control @error('kelas') is-invalid @enderror" placeholder="Contoh: 10A" value="{{ old('kelas') }}">
+                    <input type="text" name="kelas" class="form-control @error('kelas') is-invalid @enderror" placeholder="Contoh: 12 RPL 1" value="{{ old('kelas') }}">
                     @error('kelas')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -66,13 +66,13 @@
         </div>
 
         <!-- Dinamis: Petugas -->
-        <div id="fieldPetugas" style="display:none;">
+        <div id="fieldPetugas" style="display:block;">
             <h5 class="mb-2">Data Petugas</h5>
             <div class="row mb-3">
                 <div class="col">
                     <label class="form-label">NIP</label>
-                    <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip') }}">
-                    @error('nip')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <input type="text" name="nip_petugas" class="form-control @error('nip_petugas') is-invalid @enderror" value="{{ old('nip_petugas') }}">
+                    @error('nip_petugas')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col">
                     <label class="form-label">No HP</label>
@@ -82,12 +82,12 @@
         </div>
 
         <!-- Dinamis: Kepala -->
-        <div id="fieldKepala" style="display:none;">
+        <div id="fieldKepala" style="display:block;">
             <h5 class="mb-2">Data Kepala Perpus</h5>
             <div class="mb-3">
                 <label class="form-label">NIP</label>
-                <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip') }}">
-                @error('nip')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <input type="text" name="nip_kepala" class="form-control @error('nip_kepala') is-invalid @enderror" value="{{ old('nip_kepala') }}">
+                @error('nip_kepala')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
         </div>
 

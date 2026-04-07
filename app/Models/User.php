@@ -23,7 +23,7 @@ class User extends Authenticatable
     // Relasi
     public function anggota()
     {
-        return $this->hasOne(Anggota::class);
+        return $this->hasOne(anggota::class);
     }
 
     public function petugas()
