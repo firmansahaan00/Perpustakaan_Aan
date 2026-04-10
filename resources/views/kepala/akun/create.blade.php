@@ -128,7 +128,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const level = document.getElementById('level');
+    const level = document.getElementById('role');
     const anggota = document.getElementById('anggota');
     const petugas = document.getElementById('petugas');
     const kepala  = document.getElementById('kepala');

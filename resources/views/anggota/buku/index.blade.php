@@ -3,57 +3,89 @@
 @section('content')
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold mb-6">Buku Saya</h1>
-
-    <!-- Search -->
+    <!-- HEADER -->
     <div class="mb-6">
-        <form method="GET" action="{{ route('anggota.buku.index') }}">
-            <input type="text" name="search" placeholder="Cari buku..."
-                class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                value="{{ request('search') }}">
-        </form>
+        <h2 class="text-2xl font-bold text-gray-800">📚 Cari Buku</h2>
+        <p class="text-sm text-gray-500">Temukan buku favorit kamu</p>
     </div>
 
-    <!-- Grid Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- SEARCH -->
+    <form method="GET" action="{{ route('anggota.buku.index') }}"
+        class="mb-8 max-w-md flex gap-2">
 
-        @forelse ($bukus as $buku)
-        <a href="{{ route('anggota.buku.show', $buku->id) }}" class="block border rounded-lg shadow-sm p-4 hover:shadow-lg transition flex flex-col">
-            <!-- Cover Buku -->
-            <img src="{{ $buku->cover_image ? asset('storage/' . $buku->cover_image) : asset('images/default-cover.png') }}"
-                alt="{{ $buku->judul }}"
-                class="h-48 w-full object-cover rounded mb-4">
+        <input type="text" name="q" value="{{ request('q') }}"
+            placeholder="Cari judul atau penulis..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm
+                   focus:ring-2 focus:ring-blue-500 outline-none">
 
-            <!-- Judul Buku -->
-            <h3 class="text-center font-semibold mb-2">{{ $buku->judul }}</h3>
+        <button type="submit"
+            class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 shadow">
+            🔍
+        </button>
+    </form>
 
-            <!-- Stok -->
-            <p class="text-center mb-4">
-                <span class="px-2 py-1 rounded 
-                    {{ $buku->stok > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
-                    Stok: {{ $buku->stok }}
-                </span>
-            </p>
+    <!-- GRID BUKU -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
 
-            <!-- Tombol Baca (jika stok tersedia) -->
-            @if($buku->stok > 0)
-            <button
-                class="mt-auto bg-teal-500 text-white py-2 rounded hover:bg-teal-600 transition w-full">
-                Pinjam Buku
-            </button>
-            @else
-            <button disabled
-                class="mt-auto bg-gray-300 text-gray-600 py-2 rounded cursor-not-allowed w-full">
-                Tidak tersedia
-            </button>
-            @endif
+        @forelse ($buku as $item)
+
+        <!-- CARD -->
+        <a href="{{ route('anggota.buku.show', $item->id) }}"
+           class="group">
+
+            <div class="bg-white rounded-2xl shadow hover:shadow-xl transition duration-300 overflow-hidden">
+
+                <!-- COVER -->
+                <div class="h-40 overflow-hidden">
+                    <img src="{{ $item->cover 
+                        ? Storage::url($item->cover) 
+                        : asset('images/default-book.png') }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+
+                <!-- CONTENT -->
+                <div class="p-3">
+
+                    <!-- JUDUL -->
+                    <h3 class="text-sm font-semibold text-gray-800 leading-tight line-clamp-2">
+                        {{ $item->judul_buku }}
+                    </h3>
+
+                    <!-- PENULIS -->
+                    <p class="text-xs text-gray-500 mt-1">
+                        {{ Str::limit($item->penulis, 25) }}
+                    </p>
+
+                    <!-- STATUS -->
+                    <div class="mt-2">
+                        @if($item->stok > 0)
+                            <span class="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
+                                Tersedia
+                            </span>
+                        @else
+                            <span class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">
+                                Habis
+                            </span>
+                        @endif
+                    </div>
+
+                </div>
+
+            </div>
+
         </a>
+
         @empty
-        <div class="col-span-full text-center text-gray-500">
-            Data buku tidak ditemukan
+
+        <!-- EMPTY STATE -->
+        <div class="col-span-full flex flex-col items-center justify-center mt-10">
+            <img src="{{ asset('images/no-book.png') }}" class="w-24 mb-4 opacity-70">
+            <p class="text-gray-500">Buku tidak ditemukan</p>
         </div>
+
         @endforelse
 
     </div>
+
 </div>
 @endsection

@@ -13,18 +13,11 @@ return new class extends Migration
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-    
-            // relasi ke denda
-            $table->foreignId('denda_id')
-                  ->constrained('denda')
-                  ->cascadeOnDelete();
-    
-            // nominal pembayaran
-            $table->integer('nominal');
-    
-            // tipe transaksi
-            $table->enum('tipe', ['bayar', 'refund']);
-    
+            $table->foreignId('denda_id')->constrained('denda')->cascadeOnDelete();
+            $table->integer('nominal_bayar'); 
+            $table->enum('metode', ['tunai', 'transfer']);
+            $table->enum('tipe', ['bayar', 'refund'])->default('bayar');
+            $table->timestamp('tanggal_bayar');
             $table->timestamps();
         });
     }

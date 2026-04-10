@@ -6,17 +6,9 @@
     <div class="flex-1 flex flex-col">
 
         <!-- NAVBAR -->
-        <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-            <h1 class="text-lg font-semibold">Dashboard</h1>
-
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600">Halo, Admin</span>
-                <div class="w-8 h-8 bg-blue-500 text-white flex items-center justify-center rounded-full">
-                    A
-                </div>
-            </div>
+        <header class="bg-blue-600 shadow px-6 py-4 flex justify-between items-center">
+            <h1 class="text-white font-bold text-lg md:text-xl">Dashboard Petugas Perpustakaan</h1>
         </header>
-
 
         <!-- CONTENT -->
         <main class="p-6 space-y-6">
@@ -24,33 +16,33 @@
             <!-- CARD STATISTIK -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Total Pengguna</h4>
-                    <p class="text-2xl font-bold mt-2">120</p>
+                <!-- Total Pengguna -->
+                <div class="bg-blue-500 text-white p-5 rounded-xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transform transition">
+                    <h4 class="text-white text-sm uppercase tracking-wider">Total Pengguna</h4>
+                    <p class="text-3xl font-bold mt-2">{{ $totalPengguna }}</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Total Buku</h4>
-                    <p class="text-2xl font-bold mt-2">350</p>
+                <!-- Total Buku -->
+                <div class="bg-green-500 text-white p-5 rounded-xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transform transition">
+                    <h4 class="text-white text-sm uppercase tracking-wider">Total Buku</h4>
+                    <p class="text-3xl font-bold mt-2">{{ $totalBuku }}</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Transaksi</h4>
-                    <p class="text-2xl font-bold mt-2">89</p>
+                <!-- Transaksi -->
+                <div class="bg-yellow-500 text-white p-5 rounded-xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transform transition">
+                    <h4 class="text-white text-sm uppercase tracking-wider">Transaksi</h4>
+                    <p class="text-3xl font-bold mt-2">-</p> <!-- nanti diisi -->
                 </div>
 
             </div>
 
-
-            <!-- TABEL BUKU -->
+            <!-- TABEL BUKU TERBARU -->
             <div class="bg-white rounded-xl shadow p-5">
-
                 <h3 class="text-lg font-semibold mb-4">Buku Terbaru</h3>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border">
-
-                        <thead class="bg-gray-100">
+                    <table class="w-full text-center border text-gray-800">
+                        <thead class="bg-blue-600 text-white">
                             <tr>
                                 <th class="p-3">Kode</th>
                                 <th class="p-3">Judul</th>
@@ -59,69 +51,21 @@
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr class="border-t">
-                                <td class="p-3">BK001</td>
-                                <td class="p-3">Laravel Dasar</td>
-                                <td class="p-3">Aan Dev</td>
-                                <td class="p-3">10</td>
-                            </tr>
-
-                            <tr class="border-t">
-                                <td class="p-3">BK002</td>
-                                <td class="p-3">PHP OOP</td>
-                                <td class="p-3">Budi</td>
-                                <td class="p-3">7</td>
-                            </tr>
+                        <tbody class="text-gray-700">
+                            @foreach ($bukuTerbaru as $buku)
+                                <tr class="border-t hover:bg-gray-50 transition">
+                                    <td class="p-3">{{ $buku->kode_buku }}</td>
+                                    <td class="p-3">{{ $buku->judul_buku }}</td>
+                                    <td class="p-3">{{ $buku->penulis }}</td>
+                                    <td class="p-3">{{ $buku->stok }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
-
                     </table>
                 </div>
-
-            </div>
-
-
-            <!-- TABEL TRANSAKSI -->
-            <div class="bg-white rounded-xl shadow p-5">
-
-                <h3 class="text-lg font-semibold mb-4">Transaksi Terbaru</h3>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border">
-
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="p-3">Nama</th>
-                                <th class="p-3">Buku</th>
-                                <th class="p-3">Tanggal</th>
-                                <th class="p-3">Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr class="border-t">
-                                <td class="p-3">Andi</td>
-                                <td class="p-3">Laravel Dasar</td>
-                                <td class="p-3">01-04-2026</td>
-                                <td class="p-3 text-green-600">Dipinjam</td>
-                            </tr>
-
-                            <tr class="border-t">
-                                <td class="p-3">Siti</td>
-                                <td class="p-3">PHP OOP</td>
-                                <td class="p-3">30-03-2026</td>
-                                <td class="p-3 text-blue-600">Dikembalikan</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-                </div>
-
             </div>
 
         </main>
-
     </div>
-
 </div>
 @endsection

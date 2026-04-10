@@ -7,15 +7,8 @@
     <div class="flex-1 flex flex-col">
 
         <!-- NAVBAR -->
-        <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-            <h1 class="text-lg font-semibold">Dashboard Anggota</h1>
-
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600">Halo, Anggota</span>
-                <div class="w-8 h-8 bg-blue-500 text-white flex items-center justify-center rounded-full">
-                    A
-                </div>
-            </div>
+        <header class="bg-blue-600 shadow px-6 py-4 flex justify-between items-center">
+            <h1 class="text-white font-bold">Dashboard Anggota</h1>
         </header>
 
 
@@ -25,19 +18,19 @@
             <!-- CARD STATISTIK -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Sedang Dipinjam</h4>
-                    <p class="text-2xl font-bold mt-2">2</p>
+                <div class="bg-green-700 p-5 rounded-xl shadow">
+                    <h4 class="text-white text-center">Sedang Dipinjam</h4>
+                    <p class="text-center text-white font-bold mt-2 text-xl">2</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Sudah Dikembalikan</h4>
-                    <p class="text-2xl font-bold mt-2">10</p>
+                <div class="bg-yellow-700 p-5 rounded-xl shadow">
+                    <h4 class="text-white text-center">Sudah Dikembalikan</h4>
+                    <p class="text-center text-white font-bold mt-2 text-xl">10</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow">
-                    <h4 class="text-gray-500 text-sm">Total Denda</h4>
-                    <p class="text-2xl font-bold mt-2 text-red-500">Rp 5.000</p>
+                <div class="bg-red-700 p-5 rounded-xl shadow">
+                    <h4 class="text-white text-center">Total Denda</h4>
+                    <p class="text-center font-bold mt-2 text-white text-xl">Rp 5.000</p>
                 </div>
 
             </div>
@@ -51,7 +44,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border">
 
-                        <thead class="bg-gray-100">
+                        <thead class="bg-blue-600 text-white ">
                             <tr>
                                 <th class="p-3">Judul Buku</th>
                                 <th class="p-3">Tanggal Pinjam</th>
@@ -90,7 +83,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border">
 
-                        <thead class="bg-gray-100">
+                        <thead class="bg-blue-600 text-white">
                             <tr>
                                 <th class="p-3">Judul Buku</th>
                                 <th class="p-3">Tanggal Pinjam</th>

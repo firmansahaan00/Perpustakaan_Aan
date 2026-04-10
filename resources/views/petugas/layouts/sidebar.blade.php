@@ -33,11 +33,19 @@
             </a>
 
             <!-- Pengajuan Pengembalian -->
-            <a href="#" data-menu="pengembalian"
+            <a href="{{ route ('petugas.pengajuan.index')}}" data-menu="pengembalian"
             class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
             hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
                 <i data-feather="rotate-ccw" class="w-5"></i>
-                Pengajuan Pengembalian
+                Pengajuan 
+        </a>
+
+            <!-- DENDA -->
+            <a href="{{ route('petugas.denda.index')}}" data-menu="denda"
+            class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
+            hover:bg-gradient-to-r hover:from-red-600 hover:to-orange-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
+                <i data-feather="alert-circle" class="w-5"></i>
+                Denda
             </a>
 
             <!-- Daftar Buku -->

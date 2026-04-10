@@ -6,15 +6,8 @@
     <div class="flex-1 flex flex-col">
 
         <!-- NAVBAR -->
-        <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-            <h1 class="text-lg font-semibold">Dashboard Petugas</h1>
-
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600">Halo, Petugas</span>
-                <div class="w-8 h-8 bg-green-500 text-white flex items-center justify-center rounded-full">
-                    P
-                </div>
-            </div>
+        <header class="bg-blue-600 shadow px-6 py-4 flex justify-between items-center">
+            <h1 class="text-white font-bold">Dashboard Petugas</h1>
         </header>
 
 

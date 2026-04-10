@@ -43,7 +43,7 @@
                 <div class="bg-gray-50 p-3 rounded-lg">
                     <p class="text-xs text-gray-500">NIP</p>
                     <p class="font-medium text-gray-800">
-                        {{ $petugas->nip ?? '-' }}
+                        {{ $petugas->nip_petugas ?? '-' }}
                     </p>
                 </div>
 

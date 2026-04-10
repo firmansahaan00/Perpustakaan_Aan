@@ -13,7 +13,7 @@
                 ✏️ Edit Profile
             </h2>
 
-            <form action="{{ route('kepala.update', $kepala->id) }}" method="POST" class="space-y-5">
+            <form action="{{ route('kepala.profile.update', $kepala->id) }}" method="POST" class="space-y-5">
                 @csrf 
                 @method('PUT')
 

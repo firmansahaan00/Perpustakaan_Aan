@@ -1,59 +1,60 @@
 @extends('kepala.layouts.app')
 
 @section('content')
-<div class="w-full h-full flex justify-center items-center">
+<div class="w-full min-h-screen flex justify-center items-center bg-gray-100">
 
     <div class="w-full max-w-md">
 
-        <div class="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl p-6 text-center border border-gray-200">
+        <!-- Card Profil -->
+        <div class="bg-white/70 backdrop-blur-md shadow-2xl rounded-3xl p-6 text-center border border-gray-200 hover:scale-105 transform transition duration-300">
 
             <!-- AVATAR -->
             <div class="flex justify-center">
-                <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-3xl font-extrabold shadow-lg ring-4 ring-white">
                     {{ $inisial }}
                 </div>
             </div>
 
             <!-- NAMA -->
-            <h2 class="mt-4 text-xl font-semibold text-gray-800">
+            <h2 class="mt-4 text-2xl font-semibold text-gray-900">
                 {{ $kepala->user->name ?? '-' }}
             </h2>
 
-            <p class="text-gray-500 text-sm">
+            <p class="text-gray-500 text-sm mt-1 tracking-wide">
                 Kepala Perpustakaan
             </p>
 
-            <!-- BADGE -->
-            <div class="mt-2">
-                <span class="bg-blue-100 text-blue-600 text-xs px-3 py-1 rounded-full">
+            <!-- BADGE STATUS -->
+            <div class="mt-3">
+                <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
                     Active
                 </span>
             </div>
 
-            <!-- INFO -->
-            <div class="mt-6 space-y-3 text-left">
+            <!-- INFO DETAIL -->
+            <div class="mt-6 space-y-4 text-left">
 
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500">Email</p>
-                    <p class="font-medium text-gray-800">
+                <div class="bg-white/60 p-3 rounded-xl shadow-sm flex flex-col">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider">Email</p>
+                    <p class="font-medium text-gray-900 truncate">
                         {{ $kepala->user->email ?? '-' }}
                     </p>
                 </div>
 
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500">NIP</p>
-                    <p class="font-medium text-gray-800">
+                <div class="bg-white/60 p-3 rounded-xl shadow-sm flex flex-col">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider">NIP</p>
+                    <p class="font-medium text-gray-900 truncate">
                         {{ $kepala->nip_kepala ?? '-' }}
                     </p>
                 </div>
 
             </div>
 
-            <!-- BUTTON -->
+            <!-- BUTTON EDIT -->
             @if($kepala)
             <div class="mt-6">
                 <a href="{{ route('kepala.profile.edit', $kepala->id) }}"
-                   class="w-full inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg shadow hover:scale-105 transition duration-200">
+                   class="w-full inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 font-medium">
                     ✏️ Edit Profile
                 </a>
             </div>

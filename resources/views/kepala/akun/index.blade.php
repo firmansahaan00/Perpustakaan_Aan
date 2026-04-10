@@ -40,7 +40,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-gray-700">
 
-                <thead class="bg-gray-100 text-xs uppercase">
+                <thead class="bg-blue-600 text-xs uppercase text-white">
                     <tr>
                         <th class="p-3 text-left">No</th>
                         <th class="p-3 text-left">Nama</th>
@@ -53,7 +53,7 @@
 
                 <tbody class="divide-y">
                     @foreach($users as $i => $user)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-100">
                         <td class="p-3">{{ $i + 1 }}</td>
                         <td class="p-3">{{ $user->name }}</td>
                         <td class="p-3">{{ $user->email }}</td>

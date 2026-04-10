@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Anggota;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Buku;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class BukuController extends Controller
 {
-    public function index(Request $request)
+
+    public function index()
     {
-        $query = Buku::query();
+        $buku = Buku::latest()->get();
+        return view('anggota.buku.index', compact('buku'));
+    }
 
-        if ($request->has('search')) {
-            $query->where('judul', 'like', '%' . $request->search . '%')
-                  ->orWhere('penulis', 'like', '%' . $request->search . '%');
-        }
-
-        $bukus = $query->latest()->get();
-
-        return view('anggota.buku.index', compact('bukus')); // <- fix variabel
+    public function show($id)
+    {
+        $buku = Buku::findOrFail($id);
+        return view('anggota.buku.show', compact('buku'));
     }
 }

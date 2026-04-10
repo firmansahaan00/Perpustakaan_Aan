@@ -41,14 +41,6 @@
                 Riwayat Peminjaman
             </a>
 
-            <!-- Pengembalian -->
-            <a href="#" data-menu="pengembalian"
-            class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
-            hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
-                <i data-feather="rotate-ccw" class="w-5"></i>
-                Pengembalian
-            </a>
-
             <!-- Daftar Buku -->
             <a href="{{ route ('anggota.buku.index')}}" data-menu="buku"
             class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300

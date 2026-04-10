@@ -1,69 +1,103 @@
 @extends('kepala.layouts.app')
 
 @section('content')
-<div class="p-4">
-    <h3 class="mb-3">Detail Akun</h3>
+<div class="p-6">
 
-    <table class="table table-bordered" style="max-width: 600px;">
-        <tr>
-            <th width="180">ID</th>
-            <td>{{ $user->id }}</td>
-        </tr>
-        <tr>
-            <th>Nama</th>
-            <td>{{ $user->name }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ $user->email }}</td>
-        </tr>
-        <tr>
-            <th>role</th>
-            <td>{{ ucfirst($user->role) }}</td>
-        </tr>
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Detail Akun</h2>
 
-        @if($user->role == 'anggota' && $user->anggota)
-        <tr>
-            <th>NIS</th>
-            <td>{{ $user->anggota->nis }}</td>
-        </tr>
-        <tr>
-            <th>Kelas</th>
-            <td>{{ $user->anggota->kelas }}</td>
-        </tr>
-        <tr>
-            <th>Alamat</th>
-            <td>{{ $user->anggota->alamat ?? '-' }}</td>
-        </tr>
-        @endif
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-2xl">
 
-        @if($user->role == 'petugas' && $user->petugas)
-        <tr>
-            <th>NIP</th>
-            <td>{{ $user->petugas->nip_petugas }}</td>
-        </tr>
-        <tr>
-            <th>No HP</th>
-            <td>{{ $user->petugas->no_hp }}</td>
-        </tr>
-        @endif
+        <!-- Info Utama -->
+        <div class="space-y-4">
 
-        @if($user->role == 'kepala' && $user->kepala)
-        <tr>
-            <th>NIP</th>
-            <td>{{ $user->kepala->nip_kepala }}</td>
-        </tr>
-        @endif
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">ID</span>
+                <span class="text-blue-800">{{ $user->id }}</span>
+            </div>
 
-        <td>{{ optional($user->created_at)->format('d-m-Y H:i') }}</td>
-`       <td>{{ optional($user->updated_at)->format('d-m-Y H:i') }}</td>
-    </table>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">Nama</span>
+                <span class="text-gray-800">{{ $user->name }}</span>
+            </div>
 
-    <a href="{{ route('kepala.akun.edit', $user->id) }}" class="btn btn-warning text-white">Edit</a>
-    <form action="{{ route('kepala.akun.destroy', $user->id) }}" method="POST" class="d-inline">
-        @csrf @method('DELETE')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus akun ini?')">Hapus</button>
-    </form>
-    <a href="{{ route('kepala.akun.index') }}" class="btn btn-secondary">Kembali</a>
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">Email</span>
+                <span class="text-gray-800">{{ $user->email }}</span>
+            </div>
+
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">Role</span>
+                <span class="text-blue-600 font-semibold capitalize">{{ $user->role }}</span>
+            </div>
+
+            <!-- Anggota -->
+            @if($user->role == 'anggota' && $user->anggota)
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">NIS</span>
+                <span>{{ $user->anggota->nis }}</span>
+            </div>
+
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">Kelas</span>
+                <span>{{ $user->anggota->kelas }}</span>
+            </div>
+
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">Alamat</span>
+                <span>{{ $user->anggota->alamat ?? '-' }}</span>
+            </div>
+            @endif
+
+            <!-- Petugas -->
+            @if($user->role == 'petugas' && $user->petugas)
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">NIP</span>
+                <span>{{ $user->petugas->nip }}</span>
+            </div>
+
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">No HP</span>
+                <span>{{ $user->petugas->no_hp }}</span>
+            </div>
+            @endif
+
+            <!-- Kepala -->
+            @if($user->role == 'kepala_perpus' && $user->kepalaPerpus)
+            <div class="flex justify-between border-b pb-2">
+                <span class="font-medium text-gray-600">NIP</span>
+                <span>{{ $user->kepalaPerpus->nip }}</span>
+            </div>
+            @endif
+
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-3 mt-6">
+
+            <a href="{{ route('kepala.akun.edit', $user->id) }}"
+               class="px-4 py-2 bg-yellow-500 text-white rounded-xl hover:bg-yellow-600 transition">
+                Edit
+            </a>
+
+            <form action="{{ route('kepala.akun.destroy', $user->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                    onclick="return confirm('Hapus akun ini?')"
+                    class="px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition">
+                    Hapus
+                </button>
+            </form>
+
+            <a href="{{ route('kepala.akun.index') }}"
+               class="px-4 py-2 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition">
+                Kembali
+            </a>
+
+        </div>
+
+    </div>
 </div>
 @endsection
