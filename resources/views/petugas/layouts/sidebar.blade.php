@@ -16,15 +16,16 @@
     <!-- SIDEBAR -->
     <div class="text-white p-4 w-[250px] min-h-screen bg-blue-600 flex flex-col justify-between">
 
-        <!-- Bagian atas sidebar -->
+        <!-- BAGIAN ATAS -->
         <div>
-            <!-- Logo -->
-            <div class="flex items-center mb-6 gap-2">
-                <i data-feather="book-open" class="w-8 h-8"></i>
-                <h5 class="text-lg font-semibold">E-Perpus</h5>
-            </div>
 
-            <!-- Dashboard -->
+            <!-- LOGO -->
+<div class="flex items-center mb-6 gap-2">
+    <i data-feather="book" class="w-8 h-8"></i>
+    <h5 class="text-lg font-semibold">E-Perpus</h5>
+</div>
+
+            <!-- DASHBOARD -->
             <a href="{{ route ('petugas.dashboard')}}" data-menu="dashboard"
             class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
             hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
@@ -32,13 +33,21 @@
                 Dashboard
             </a>
 
-            <!-- Pengajuan Pengembalian -->
-            <a href="{{ route ('petugas.pengajuan.index')}}" data-menu="pengembalian"
+            <!-- PENGAJUAN -->
+            <a href="{{ route ('petugas.pengajuan.index')}}" data-menu="pengajuan"
             class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
             hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
-                <i data-feather="rotate-ccw" class="w-5"></i>
-                Pengajuan 
-        </a>
+                <i data-feather="inbox" class="w-5"></i>
+                Pengajuan
+            </a>
+
+            <!-- PENGEMBALIAN -->
+            <a href="{{ route ('petugas.pengembalian.index')}}" data-menu="pengembalian"
+            class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
+            hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
+                <i data-feather="repeat" class="w-5"></i>
+                Pengembalian
+            </a>
 
             <!-- DENDA -->
             <a href="{{ route('petugas.denda.index')}}" data-menu="denda"
@@ -48,7 +57,7 @@
                 Denda
             </a>
 
-            <!-- Daftar Buku -->
+            <!-- BUKU -->
             <a href="{{ route ('petugas.buku.index')}}" data-menu="buku"
             class="menu-item flex items-center gap-2 mb-3 px-3 py-2 rounded-xl transition-all duration-300
             hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
@@ -56,19 +65,21 @@
                 Daftar Buku
             </a>
 
-            <!-- Profile -->
+            <!-- PROFILE -->
             <a href="{{ route('petugas.profile.index') }}" data-menu="profile"
             class="menu-item flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300
             hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03]">
                 <i data-feather="user" class="w-5"></i>
                 Profile
             </a>
+
         </div>
 
-        <!-- Logout di bawah -->
+        <!-- LOGOUT -->
         <form action="{{ route('logout') }}" method="POST" class="mt-4">
             @csrf
-            <button type="submit" class="flex items-center gap-2 w-full px-3 py-2 bg-red-600 rounded-xl hover:bg-red-700 transition">
+            <button type="submit"
+                class="flex items-center gap-2 w-full px-3 py-2 bg-red-600 rounded-xl hover:bg-red-700 transition">
                 <i data-feather="log-out" class="w-5"></i>
                 Logout
             </button>
@@ -76,10 +87,9 @@
 
     </div>
 
-    <!-- SCRIPT -->
+    <!-- SCRIPT ACTIVE MENU -->
     <script>
     const menuItems = document.querySelectorAll('.menu-item');
-
     const activeMenu = localStorage.getItem('activeMenu');
 
     if (activeMenu) {
@@ -103,7 +113,7 @@
     });
     </script>
 
-    <!-- INIT FEATHER -->
+    <!-- INIT FEATHER ICON -->
     <script>
         feather.replace();
     </script>

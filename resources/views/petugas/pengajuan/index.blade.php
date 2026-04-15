@@ -6,12 +6,12 @@
     {{-- HEADER --}}
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">
-            📚 Manajemen Pengajuan Buku
+        Manajemen Pengajuan Buku
         </h2>
 
         <a href="{{ route('petugas.pengaturan.index') }}"
             class="flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-xl text-sm shadow">
-            ⚙️ Pengaturan
+            Pengaturan
         </a>
     </div>
 
@@ -25,7 +25,7 @@
     {{-- ================= BELUM DIPROSES ================= --}}
     <div class="mb-10">
         <h3 class="text-lg font-semibold text-gray-700 mb-3">
-            ⏳ Pengajuan Belum Diproses
+            Pengajuan Belum Diproses
         </h3>
 
         <div class="bg-white rounded-2xl shadow overflow-hidden">
@@ -80,18 +80,18 @@
                                 <input type="hidden" name="status" value="dipinjam">
 
                                 <button class="w-full flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded-lg shadow">
-                                    ✔ Terima
+                                    Terima
                                 </button>
                             </form>
 
                             {{-- TOLAK --}}
                             <button data-modal-target="modal-tolak-{{ $item->id }}"
                                 class="w-full flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded-lg shadow open-modal">
-                                ✖ Tolak
+                                Tolak
                             </button>
 
                             {{-- MODAL --}}
-                            <div id="modal-tolak-{{ $item->id }}" 
+                            <div id="modal-tolak-{{ $item->id }}"
                                  class="fixed inset-0 bg-black/40 flex items-center justify-center hidden z-50">
                                 <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
 
@@ -138,7 +138,7 @@
     {{-- ================= SUDAH DIPROSES ================= --}}
     <div>
         <h3 class="text-lg font-semibold text-gray-700 mb-3">
-            ✅ Pengajuan Sudah Diproses
+            Pengajuan Sudah Diproses
         </h3>
 
         <div class="bg-white rounded-2xl shadow overflow-hidden">
@@ -186,7 +186,7 @@
 
                         <td class="p-3 text-center">
 
-                            {{-- 🔥 FIX: kalau ini nanti update status → pakai FORM --}}
+                            
                             <form action="{{ route('petugas.pengembalian.proses', $p->id) }}" method="GET">
                                 <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg text-xs shadow">
                                     Kembalikan

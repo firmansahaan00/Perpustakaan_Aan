@@ -8,6 +8,12 @@
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- ALPINE JS --}}
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    {{-- FEATHER ICON --}}
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -19,14 +25,22 @@
         @include('anggota.layouts.sidebar')
     </div>
 
-    {{-- CONTENT --}}
+    
     <div class="ml-64 flex-1 p-6">
         @yield('content')
     </div>
 
 </div>
 
+
 @stack('scripts')
+
+// Inti Feather Icon
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        feather.replace();
+    });
+</script>
 
 </body>
 </html>

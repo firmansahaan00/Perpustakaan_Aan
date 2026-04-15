@@ -73,7 +73,7 @@
 
         <!-- ANGGOTA -->
         <div id="anggota" class="hidden border-t pt-4">
-            <h4 class="font-semibold text-gray-700 mb-2">📘 Data Anggota</h4>
+            <h4 class="font-semibold text-gray-700 mb-2">Data Anggota</h4>
 
             <input type="text" name="nis" placeholder="NIS"
                 class="w-full mb-2 border rounded-lg px-3 py-2" disabled>
@@ -87,7 +87,7 @@
 
         <!-- PETUGAS -->
         <div id="petugas" class="hidden border-t pt-4">
-            <h4 class="font-semibold text-gray-700 mb-2">🧑‍💼 Data Petugas</h4>
+            <h4 class="font-semibold text-gray-700 mb-2">Data Petugas</h4>
 
             <input type="text" name="nip_petugas" placeholder="NIP Petugas"
                 class="w-full mb-2 border rounded-lg px-3 py-2" disabled>
@@ -98,7 +98,7 @@
 
         <!-- KEPALA -->
         <div id="kepala" class="hidden border-t pt-4">
-            <h4 class="font-semibold text-gray-700 mb-2">👨‍💼 Data Kepala</h4>
+            <h4 class="font-semibold text-gray-700 mb-2">Data Kepala</h4>
 
             <input type="text" name="nip_kepala" placeholder="NIP Kepala"
                 class="w-full border rounded-lg px-3 py-2" disabled>

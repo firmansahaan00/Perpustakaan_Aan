@@ -5,7 +5,7 @@
 
     {{-- HEADER --}}
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">⚙️ Pengaturan Denda & Peminjaman</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Pengaturan Denda & Peminjaman</h2>
         <a href="{{ route('petugas.pengajuan.index') }}"
             class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm shadow">
             ← Kembali
@@ -46,11 +46,11 @@
             <div class="flex gap-3 mt-4">
                 <button type="submit" 
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
-                    💾 Simpan
+                    Simpan
                 </button>
                 <button type="reset" 
                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
-                    🔄 Reset
+                    Reset
                 </button>
             </div>
 

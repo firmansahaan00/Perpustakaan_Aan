@@ -55,7 +55,7 @@
             <div class="mt-6">
                 <a href="{{ route('kepala.profile.edit', $kepala->id) }}"
                    class="w-full inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 font-medium">
-                    ✏️ Edit Profile
+                     Edit Profile
                 </a>
             </div>
             @endif

@@ -73,7 +73,7 @@
 
                         <td class="p-3 text-center space-x-1">
 
-                            <a href="{{ route('kepala.akun.detail', $user->id) }}"
+                            <a href="{{ route('kepala.akun.show', $user->id) }}"
                                class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs">
                                 Detail
                             </a>

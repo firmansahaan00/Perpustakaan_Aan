@@ -8,6 +8,9 @@
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- FEATHER ICON CDN (WAJIB) --}}
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -27,6 +30,13 @@
 </div>
 
 @stack('scripts')
+
+{{-- INIT FEATHER ICON (WAJIB) --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        feather.replace();
+    });
+</script>
 
 </body>
 </html>

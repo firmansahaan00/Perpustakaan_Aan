@@ -20,9 +20,9 @@ class Denda extends Model
 
     // relasi ke peminjaman
     public function peminjaman()
-    {
-        return $this->belongsTo(Peminjaman::class);
-    }
+{
+    return $this->belongsTo(Peminjaman::class, 'peminjaman_id');
+}
 
     // relasi ke pembayaran
     public function pembayaran()

@@ -10,7 +10,7 @@
 
             <!-- TITLE -->
             <h2 class="text-xl font-semibold text-gray-800 text-center mb-6">
-                ✏️ Edit Profile
+            Edit Profile
             </h2>
 
             <form action="{{ route('petugas.profile.update', $petugas->id) }}" method="POST" class="space-y-5">
@@ -46,12 +46,12 @@
 
                     <button type="submit"
                         class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg shadow hover:scale-105 transition duration-200">
-                        💾 Simpan
+                        Simpan
                     </button>
 
                     <a href="{{ route('petugas.profile.index') }}"
                         class="flex-1 text-center bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition">
-                        ⬅️ Kembali
+                         Kembali
                     </a>
 
                 </div>

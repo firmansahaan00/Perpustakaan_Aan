@@ -54,7 +54,7 @@
             <div class="mt-6">
                 <a href="{{ route('petugas.profile.edit', $petugas->id) }}"
                    class="w-full inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg shadow hover:scale-105 transition duration-200">
-                    ✏️ Edit Profile
+                    Edit Profile
                 </a>
             </div>
             @endif

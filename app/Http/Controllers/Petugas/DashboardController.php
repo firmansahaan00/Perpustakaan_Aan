@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers\Petugas;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Buku;
+use App\Models\Peminjaman;
+use Illuminate\Routing\Controller;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Total pengguna
-        $totalPengguna = User::count();
+        // STATISTIK
+        $totalAnggota = User::where('role', 'anggota')->count();
+        $totalBuku = Buku::count();
+        $bukuDipinjam = Peminjaman::where('status', 'dipinjam')->count();
+        $bukuDikembalikan = Peminjaman::where('status', 'dikembalikan')->count();
 
-        // Total buku
-        $bukudipinjam = Buku::count();
+        // PEMINJAMAN TERBARU
+        $peminjamanTerbaru = Peminjaman::with(['user', 'buku'])
+            ->latest()
+            ->limit(10)
+            ->get();
 
-        // Buku terbaru (misal 5 buku terakhir)
-        $bukudikembalikan = Buku::orderBy('created_at', 'desc')->take(5)->get();
+        // PENGEMBALIAN TERBARU + DENDA
+        $pengembalianTerbaru = Peminjaman::with(['user', 'buku', 'denda'])
+            ->where('status', 'dikembalikan')
+            ->latest()
+            ->limit(10)
+            ->get();
 
-        return view('petugas.dashboard', compact('totalPengguna', 'bukudipinjam', 'bukudikembalikan'));
+        return view('petugas.dashboard', compact(
+            'totalAnggota',
+            'totalBuku',
+            'bukuDipinjam',
+            'bukuDikembalikan',
+            'peminjamanTerbaru',
+            'pengembalianTerbaru'
+        ));
     }
 }

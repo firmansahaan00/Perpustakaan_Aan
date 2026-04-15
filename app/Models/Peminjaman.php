@@ -22,7 +22,7 @@ class Peminjaman extends Model
     public function User()
     {
         return $this->belongsTo(User::class);
-    }   
+    }
 
     //relasi ke anggota
     public function Anggota()
@@ -31,7 +31,7 @@ class Peminjaman extends Model
     }
 
     // relasi ke buku
-    public function Buku()
+    public function buku()
     {
         return $this->belongsTo(Buku::class);
     }
@@ -42,5 +42,5 @@ class Peminjaman extends Model
         return $this->hasMany(Denda::class);
     }
 
-    
+
 }

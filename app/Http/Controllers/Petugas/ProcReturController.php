@@ -5,146 +5,149 @@ namespace App\Http\Controllers\Petugas;
 use App\Models\Denda;
 use App\Models\Peminjaman;
 use App\Models\Pengaturan;
-use Carbon\Carbon;
+use App\Models\Buku;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ProcReturController extends Controller
 {
+    /**
+     * ================= FORM =================
+     */
     public function show($id)
     {
-        $peminjaman = Peminjaman::with('user','buku')->findOrFail($id);
+        $peminjaman = Peminjaman::with('user', 'buku')->findOrFail($id);
         $pengaturan = Pengaturan::first();
 
-        // hitung telat
         $telat = 0;
-        if(now()->gt($peminjaman->tanggal_jatuh_tempo)) {
-            $hari_telat = now()->diffInDays($peminjaman->tanggal_jatuh_tempo);
-            $telat = $hari_telat * ($pengaturan->denda_per_hari ?? 1000);
+
+        if ($peminjaman->tanggal_jatuh_tempo) {
+
+            $jatuhTempo = Carbon::parse($peminjaman->tanggal_jatuh_tempo);
+
+            if (now()->gt($jatuhTempo)) {
+
+                $hari_telat = ceil($jatuhTempo->diffInHours(now()) / 24);
+                $denda_per_hari = max(0, $pengaturan->denda_per_hari ?? 1000);
+
+                $telat = max(0, $hari_telat * $denda_per_hari);
+            }
         }
 
-        return view('petugas.pengembalian.proc_retur', compact('peminjaman','telat'));
+        return view('petugas.pengembalian.proc_retur', compact('peminjaman', 'telat'));
     }
 
+    /**
+     * ================= PROSES =================
+     */
     public function store(Request $request, $id)
-{
-    $request->validate([
-        'aksi' => 'required|in:simpan_bayar_sekarang,simpan_bayar_nanti,langsung_kembali'
-    ]);
-
-    $peminjaman = Peminjaman::findOrFail($id);
-    $pengaturan = Pengaturan::first();
-
-    // Hitung telat
-    $telat = 0;
-    if(now()->gt($peminjaman->tanggal_jatuh_tempo)) {
-        $hari_telat = now()->diffInDays($peminjaman->tanggal_jatuh_tempo);
-        $telat = $hari_telat * ($pengaturan->denda_per_hari ?? 1000);
-    }
-
-    // Denda lain
-    $denda_lain = 0;
-    $jenis = null;
-
-    if($request->denda_lain === 'hilang' || $request->denda_lain === 'rusak') {
-        $denda_lain = $request->nominal_lain ?? 0;
-        $jenis = $request->denda_lain;
-    }
-
-    $total = $telat + $denda_lain;
-
-    $denda = null;
-
-    if($total > 0) {
-        $denda = Denda::create([
-            'peminjaman_id' => $peminjaman->id,
-            'jenis' => $jenis ?? 'telat',
-            'nominal_tagihan' => $total,
-            'keterangan' => '-',
-            'status_denda' => 'belum_lunas'
-        ]);
-    }
-
-    // Update peminjaman
-    $peminjaman->update([
-        'status' => 'dikembalikan',
-        'tanggal_kembali' => now()
-    ]);
-
-    // ✅ BAYAR SEKARANG → ke halaman pembayaran (GET)
-    if($request->aksi == 'simpan_bayar_sekarang' && $denda) {
-        return redirect()->route('petugas.pembayaran.index', $peminjaman->id);
-    }
-
-    // ✅ BAYAR NANTI
-    if($request->aksi == 'simpan_bayar_nanti') {
-        return redirect()->route('petugas.denda.index')
-            ->with('success', 'Denda disimpan, bayar nanti.');
-    }
-
-    // ✅ TANPA DENDA
-    return redirect()->route('petugas.pengembalian.index')
-        ->with('success','Buku berhasil dikembalikan.');
-}
-
-   public function proses(Request $request, $id)
-{
-    $peminjaman = Peminjaman::findOrFail($id);
-    $pengaturan = Pengaturan::first();
-
-    $tanggal_kembali = now();
-    $totalDenda = 0;
-
-    // 🔹 TELAT
-    if ($tanggal_kembali->gt($peminjaman->tanggal_jatuh_tempo)) {
-        $hariTelat = $tanggal_kembali->diffInDays($peminjaman->tanggal_jatuh_tempo);
-        $nominalTelat = $hariTelat * ($pengaturan->denda_per_hari ?? 1000);
-
-        Denda::create([
-            'peminjaman_id' => $peminjaman->id,
-            'jenis' => 'telat',
-            'nominal_tagihan' => $nominalTelat,
-            'status_denda' => 'belum_lunas',
-            'keterangan' => "Terlambat $hariTelat hari",
+    {
+        $request->validate([
+            'aksi' => 'required|in:simpan_bayar_sekarang,simpan_bayar_nanti,langsung_kembali'
         ]);
 
-        $totalDenda += $nominalTelat;
-    }
+        try {
 
-    // 🔹 DENDA LAIN
-    if (in_array($request->denda_lain, ['hilang','rusak'])) {
-        $nominalLain = $request->nominal_lain ?? 0;
+            DB::beginTransaction();
 
-        Denda::create([
-            'peminjaman_id' => $peminjaman->id,
-            'jenis' => $request->denda_lain,
-            'nominal_tagihan' => $nominalLain,
-            'status_denda' => 'belum_lunas',
-            'keterangan' => ucfirst($request->denda_lain),
-        ]);
+            $peminjaman = Peminjaman::with('buku')
+                ->lockForUpdate()
+                ->findOrFail($id);
 
-        $totalDenda += $nominalLain;
-    }
+            $pengaturan = Pengaturan::first();
 
-    // update peminjaman
-    $peminjaman->update([
-        'status' => 'dikembalikan',
-        'tanggal_kembali' => $tanggal_kembali
-    ]);
+            if ($peminjaman->status === 'dikembalikan') {
+                throw new \Exception('Buku sudah dikembalikan!');
+            }
 
-    // 🔥 TANPA DENDA
-    if ($totalDenda == 0) {
+            // ================= HITUNG DENDA =================
+            $telat = 0;
+
+            if ($peminjaman->tanggal_jatuh_tempo) {
+
+                $jatuhTempo = Carbon::parse($peminjaman->tanggal_jatuh_tempo);
+
+                if (now()->gt($jatuhTempo)) {
+
+                    $hari_telat = ceil($jatuhTempo->diffInHours(now()) / 24);
+                    $denda_per_hari = max(0, $pengaturan->denda_per_hari ?? 1000);
+
+                    $telat = max(0, $hari_telat * $denda_per_hari);
+                }
+            }
+
+            // ================= DENDA LAIN =================
+            $denda_lain = 0;
+            $jenis = 'telat';
+
+            if ($request->filled('denda_lain') && in_array($request->denda_lain, ['hilang', 'rusak'])) {
+                $denda_lain = max(0, (int) $request->nominal_lain);
+                $jenis = $request->denda_lain;
+            }
+
+            // ================= TOTAL =================
+            $total = max(0, $telat + $denda_lain);
+
+            $dendaResult = null;
+
+            if ($total > 0) {
+                $dendaResult = Denda::create([
+                    'peminjaman_id'   => $peminjaman->id,
+                    'jenis'           => $jenis,
+                    'nominal_tagihan' => $total,
+                    'keterangan'      => 'Denda keterlambatan / kerusakan',
+                    'status_denda'    => 'belum_lunas'
+                ]);
+            }
+
+            // ================= UPDATE STOK =================
+            $buku = Buku::find($peminjaman->buku_id);
+
+            if ($buku) {
+                $buku->increment('stok');
+            }
+
+            // ================= UPDATE PEMINJAMAN =================
+            $peminjaman->update([
+                'status' => 'dikembalikan',
+                'tanggal_kembali' => now()
+            ]);
+
+            DB::commit();
+
+            // ================= NOTIFIKASI =================
+            $pesan = "Buku '{$peminjaman->buku->judul_buku}' berhasil dikembalikan";
+
+            if ($dendaResult && $dendaResult->nominal_tagihan > 0) {
+                $pesan .= " dengan denda Rp " . number_format($dendaResult->nominal_tagihan);
+            }
+
+            Notifikasi::create([
+                'user_id' => $peminjaman->user_id,
+                'pesan'   => $pesan,
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+
+        // ================= REDIRECT =================
+        if ($request->aksi === 'simpan_bayar_sekarang' && isset($dendaResult)) {
+            return redirect()->route('petugas.denda.index')
+                ->with('success', 'Denda dibuat, silakan bayar sekarang.');
+        }
+
+        if ($request->aksi === 'simpan_bayar_nanti') {
+            return redirect()->route('petugas.denda.index')
+                ->with('success', 'Denda masuk ke daftar NUNGGAK.');
+        }
+
         return redirect()->route('petugas.pengembalian.index')
-            ->with('success', 'Buku berhasil dikembalikan tanpa denda');
+            ->with('success', 'Buku berhasil dikembalikan.');
     }
-
-    // 🔥 BAYAR SEKARANG → ke halaman pembayaran
-    if ($request->aksi == 'simpan_bayar_sekarang') {
-        return redirect()->route('petugas.pembayaran.lunas', $peminjaman->id);
-    }
-
-    // 🔥 BAYAR NANTI
-    return redirect()->route('petugas.pengembalian.index')
-        ->with('success', 'Buku dikembalikan, pembayaran nanti');
-}
 }

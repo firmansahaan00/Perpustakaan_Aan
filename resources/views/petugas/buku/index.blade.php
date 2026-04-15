@@ -6,7 +6,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-gray-800">📚 Data Buku</h1>
+            <h1 class="text-3xl font-bold text-gray-800">Data Buku</h1>
             <p class="text-gray-500 text-sm">Kelola semua data buku perpustakaan</p>
         </div>
         <a href="{{ route('petugas.buku.create') }}"
